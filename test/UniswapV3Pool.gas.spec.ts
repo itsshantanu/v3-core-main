@@ -78,10 +78,10 @@ describe('UniswapV3Pool gas tests', () => {
       let mint: MintFunction
 
       beforeEach('load the fixture', async () => {
-        ;({ swapExact0For1, pool, mint, swapToHigherPrice, swapToLowerPrice } = await loadFixture(gasTestFixture))
+        ; ({ swapExact0For1, pool, mint, swapToHigherPrice, swapToLowerPrice } = await loadFixture(gasTestFixture))
       })
 
-      describe.only('#swapExact0For1', () => {
+      describe('#swapExact0For1', () => {
         it('first swap in block with no tick movement', async () => {
           await snapshotGasCost(swapExact0For1(2000, wallet.address))
           expect((await pool.slot0()).sqrtPriceX96).to.not.eq(startingPrice)

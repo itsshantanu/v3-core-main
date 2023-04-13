@@ -5,6 +5,9 @@ import '@nomiclabs/hardhat-etherscan'
 
 export default {
   networks: {
+    buildbear: {
+      url: "https://rpc.dev.buildbear.io/Tall_Mon_Mothma_b9257b5b"
+    },
     hardhat: {
       allowUnlimitedContractSize: false,
     },
@@ -65,4 +68,7 @@ export default {
       },
     },
   },
+  mocha: {
+    timeout: 4000000
+  }
 }

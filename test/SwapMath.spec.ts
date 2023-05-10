@@ -17,7 +17,7 @@ describe('SwapMath', () => {
     sqrtPriceMath = (await sqrtPriceMathTestFactory.deploy()) as SqrtPriceMathTest
   })
 
-  describe.only('#computeSwapStep', () => {
+  describe('#computeSwapStep', () => {
     it('exact amount in that gets capped at price target in one for zero', async () => {
       const price = encodePriceSqrt(1, 1)
       const priceTarget = encodePriceSqrt(101, 100)

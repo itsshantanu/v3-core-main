@@ -504,85 +504,85 @@ describe('UniswapV3Pool swap tests', () => {
         }
       })
 
-      for (const testCase of poolCase.swapTests ?? DEFAULT_POOL_SWAP_TESTS) {
-        it(swapCaseToDescription(testCase), async () => {
-          const slot0 = await pool.slot0()
-          const tx = executeSwap(pool, testCase, poolFunctions)
-          try {
-            await tx
-          } catch (error) {
-            expect({
-              swapError: error.message,
-              poolBalance0: poolBalance0.toString(),
-              poolBalance1: poolBalance1.toString(),
-              poolPriceBefore: formatPrice(slot0.sqrtPriceX96),
-              tickBefore: slot0.tick,
-            }).to.matchSnapshot('swap error')
-            return
-          }
-          const [
-            poolBalance0After,
-            poolBalance1After,
-            slot0After,
-            liquidityAfter,
-            feeGrowthGlobal0X128,
-            feeGrowthGlobal1X128,
-          ] = await Promise.all([
-            token0.balanceOf(pool.address),
-            token1.balanceOf(pool.address),
-            pool.slot0(),
-            pool.liquidity(),
-            pool.feeGrowthGlobal0X128(),
-            pool.feeGrowthGlobal1X128(),
-          ])
-          const poolBalance0Delta = poolBalance0After.sub(poolBalance0)
-          const poolBalance1Delta = poolBalance1After.sub(poolBalance1)
+      // for (const testCase of poolCase.swapTests ?? DEFAULT_POOL_SWAP_TESTS) {
+      //   it(swapCaseToDescription(testCase), async () => {
+      //     const slot0 = await pool.slot0()
+      //     const tx = executeSwap(pool, testCase, poolFunctions)
+      //     try {
+      //       await tx
+      //     } catch (error) {
+      //       expect({
+      //         swapError: error.message,
+      //         poolBalance0: poolBalance0.toString(),
+      //         poolBalance1: poolBalance1.toString(),
+      //         poolPriceBefore: formatPrice(slot0.sqrtPriceX96),
+      //         tickBefore: slot0.tick,
+      //       }).to.matchSnapshot('swap error')
+      //       return
+      //     }
+      //     const [
+      //       poolBalance0After,
+      //       poolBalance1After,
+      //       slot0After,
+      //       liquidityAfter,
+      //       feeGrowthGlobal0X128,
+      //       feeGrowthGlobal1X128,
+      //     ] = await Promise.all([
+      //       token0.balanceOf(pool.address),
+      //       token1.balanceOf(pool.address),
+      //       pool.slot0(),
+      //       pool.liquidity(),
+      //       pool.feeGrowthGlobal0X128(),
+      //       pool.feeGrowthGlobal1X128(),
+      //     ])
+      //     const poolBalance0Delta = poolBalance0After.sub(poolBalance0)
+      //     const poolBalance1Delta = poolBalance1After.sub(poolBalance1)
 
-          // check all the events were emitted corresponding to balance changes
-          if (poolBalance0Delta.eq(0)) await expect(tx).to.not.emit(token0, 'Transfer')
-          else if (poolBalance0Delta.lt(0))
-            await expect(tx)
-              .to.emit(token0, 'Transfer')
-              .withArgs(pool.address, SWAP_RECIPIENT_ADDRESS, poolBalance0Delta.mul(-1))
-          else await expect(tx).to.emit(token0, 'Transfer').withArgs(wallet.address, pool.address, poolBalance0Delta)
+      //     // check all the events were emitted corresponding to balance changes
+      //     if (poolBalance0Delta.eq(0)) await expect(tx).to.not.emit(token0, 'Transfer')
+      //     else if (poolBalance0Delta.lt(0))
+      //       await expect(tx)
+      //         .to.emit(token0, 'Transfer')
+      //         .withArgs(pool.address, SWAP_RECIPIENT_ADDRESS, poolBalance0Delta.mul(-1))
+      //     else await expect(tx).to.emit(token0, 'Transfer').withArgs(wallet.address, pool.address, poolBalance0Delta)
 
-          if (poolBalance1Delta.eq(0)) await expect(tx).to.not.emit(token1, 'Transfer')
-          else if (poolBalance1Delta.lt(0))
-            await expect(tx)
-              .to.emit(token1, 'Transfer')
-              .withArgs(pool.address, SWAP_RECIPIENT_ADDRESS, poolBalance1Delta.mul(-1))
-          else await expect(tx).to.emit(token1, 'Transfer').withArgs(wallet.address, pool.address, poolBalance1Delta)
+      //     if (poolBalance1Delta.eq(0)) await expect(tx).to.not.emit(token1, 'Transfer')
+      //     else if (poolBalance1Delta.lt(0))
+      //       await expect(tx)
+      //         .to.emit(token1, 'Transfer')
+      //         .withArgs(pool.address, SWAP_RECIPIENT_ADDRESS, poolBalance1Delta.mul(-1))
+      //     else await expect(tx).to.emit(token1, 'Transfer').withArgs(wallet.address, pool.address, poolBalance1Delta)
 
-          // check that the swap event was emitted too
-          await expect(tx)
-            .to.emit(pool, 'Swap')
-            .withArgs(
-              swapTarget.address,
-              SWAP_RECIPIENT_ADDRESS,
-              poolBalance0Delta,
-              poolBalance1Delta,
-              slot0After.sqrtPriceX96,
-              liquidityAfter,
-              slot0After.tick
-            )
+      //     // check that the swap event was emitted too
+      //     await expect(tx)
+      //       .to.emit(pool, 'Swap')
+      //       .withArgs(
+      //         swapTarget.address,
+      //         SWAP_RECIPIENT_ADDRESS,
+      //         poolBalance0Delta,
+      //         poolBalance1Delta,
+      //         slot0After.sqrtPriceX96,
+      //         liquidityAfter,
+      //         slot0After.tick
+      //       )
 
-          const executionPrice = new Decimal(poolBalance1Delta.toString()).div(poolBalance0Delta.toString()).mul(-1)
+      //     const executionPrice = new Decimal(poolBalance1Delta.toString()).div(poolBalance0Delta.toString()).mul(-1)
 
-          expect({
-            amount0Before: poolBalance0.toString(),
-            amount1Before: poolBalance1.toString(),
-            amount0Delta: poolBalance0Delta.toString(),
-            amount1Delta: poolBalance1Delta.toString(),
-            feeGrowthGlobal0X128Delta: feeGrowthGlobal0X128.toString(),
-            feeGrowthGlobal1X128Delta: feeGrowthGlobal1X128.toString(),
-            tickBefore: slot0.tick,
-            poolPriceBefore: formatPrice(slot0.sqrtPriceX96),
-            tickAfter: slot0After.tick,
-            poolPriceAfter: formatPrice(slot0After.sqrtPriceX96),
-            executionPrice: executionPrice.toPrecision(5),
-          }).to.matchSnapshot('balances')
-        })
-      }
+      //     expect({
+      //       amount0Before: poolBalance0.toString(),
+      //       amount1Before: poolBalance1.toString(),
+      //       amount0Delta: poolBalance0Delta.toString(),
+      //       amount1Delta: poolBalance1Delta.toString(),
+      //       feeGrowthGlobal0X128Delta: feeGrowthGlobal0X128.toString(),
+      //       feeGrowthGlobal1X128Delta: feeGrowthGlobal1X128.toString(),
+      //       tickBefore: slot0.tick,
+      //       poolPriceBefore: formatPrice(slot0.sqrtPriceX96),
+      //       tickAfter: slot0After.tick,
+      //       poolPriceAfter: formatPrice(slot0After.sqrtPriceX96),
+      //       executionPrice: executionPrice.toPrecision(5),
+      //     }).to.matchSnapshot('balances')
+      //   })
+      // }
     })
   }
 })

@@ -17,7 +17,7 @@ describe('SqrtPriceMath', () => {
     sqrtPriceMath = (await sqrtPriceMathTestFactory.deploy()) as SqrtPriceMathTest
   })
 
-  describe.only('#getNextSqrtPriceFromInput', () => {
+  describe('#getNextSqrtPriceFromInput', () => {
     it('fails if price is zero', async () => {
       await expect(sqrtPriceMath.getNextSqrtPriceFromInput(0, 0, expandTo18Decimals(1).div(10), false)).to.be.reverted
     })

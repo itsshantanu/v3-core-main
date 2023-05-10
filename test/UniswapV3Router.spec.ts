@@ -93,7 +93,7 @@ describe('UniswapV3Pool', () => {
     expect(await pool1.token1()).to.eq(token2.address)
   })
 
-  describe.only('multi-swaps', () => {
+  describe('multi-swaps', () => {
     let inputToken: TestERC20
     let outputToken: TestERC20
 

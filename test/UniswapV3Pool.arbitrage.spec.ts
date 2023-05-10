@@ -73,7 +73,7 @@ describe('UniswapV3Pool arbitrage tests', () => {
         expandTo18Decimals(10),
         expandTo18Decimals(100),
       ]) {
-        describe.only(`passive liquidity of ${formatTokenAmount(passiveLiquidity)}`, () => {
+        describe(`passive liquidity of ${formatTokenAmount(passiveLiquidity)}`, () => {
           const arbTestFixture = async ([wallet, arbitrageur]: Wallet[]) => {
             const fix = await poolFixture([wallet], waffle.provider)
 

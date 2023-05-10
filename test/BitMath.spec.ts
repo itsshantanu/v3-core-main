@@ -15,7 +15,7 @@ describe('BitMath', () => {
     bitMath = await waffle.loadFixture(fixture)
   })
 
-  describe.only('#mostSignificantBit', () => {
+  describe('#mostSignificantBit', () => {
     it('0', async () => {
       await expect(bitMath.mostSignificantBit(0)).to.be.reverted
     })

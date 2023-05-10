@@ -31,7 +31,7 @@ describe('Oracle', () => {
     return oracle
   }
 
-  describe.only('#initialize', () => {
+  describe('#initialize', () => {
     let oracle: OracleTest
     beforeEach('deploy test oracle', async () => {
       oracle = await loadFixture(oracleFixture)

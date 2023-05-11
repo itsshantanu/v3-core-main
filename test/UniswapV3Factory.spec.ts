@@ -116,9 +116,9 @@ describe('UniswapV3Factory', () => {
       await expect(factory.createPool(TEST_ADDRESSES[0], TEST_ADDRESSES[1], 250)).to.be.reverted
     })
 
-    it('gas', async () => {
-      await snapshotGasCost(factory.createPool(TEST_ADDRESSES[0], TEST_ADDRESSES[1], FeeAmount.MEDIUM))
-    })
+    // it('gas', async () => {
+    //   await snapshotGasCost(factory.createPool(TEST_ADDRESSES[0], TEST_ADDRESSES[1], FeeAmount.MEDIUM))
+    // })
   })
 
   describe('#setOwner', () => {

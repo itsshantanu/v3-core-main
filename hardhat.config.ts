@@ -5,8 +5,8 @@ import '@nomiclabs/hardhat-etherscan'
 
 export default {
   networks: {
-    buildbear: {
-      url: "https://rpc.dev.buildbear.io/Tall_Mon_Mothma_b9257b5b"
+    localhost: {
+      url: 'http://127.0.0.1:8545'
     },
     hardhat: {
       allowUnlimitedContractSize: false,

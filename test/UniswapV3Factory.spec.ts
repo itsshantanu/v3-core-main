@@ -86,7 +86,7 @@ describe('UniswapV3Factory', () => {
     expect(await pool.tickSpacing(), 'pool tick spacing').to.eq(tickSpacing)
   }
 
-  describe.only('#createPool', () => {
+  describe('#createPool', () => {
     it('succeeds for low fee pool', async () => {
       await createAndCheckPool(TEST_ADDRESSES, FeeAmount.LOW)
     })
@@ -109,7 +109,9 @@ describe('UniswapV3Factory', () => {
     it('fails if token a is 0 or token b is 0', async () => {
       await expect(factory.createPool(TEST_ADDRESSES[0], constants.AddressZero, FeeAmount.LOW)).to.be.reverted
       await expect(factory.createPool(constants.AddressZero, TEST_ADDRESSES[0], FeeAmount.LOW)).to.be.reverted
-      await factory.createPool(constants.AddressZero, constants.AddressZero, FeeAmount.LOW)
+      await expect(factory.createPool(constants.AddressZero, constants.AddressZero, FeeAmount.LOW)).to.be.revertedWith(
+        ''
+      )
     })
 
     it('fails if fee amount is not enabled', async () => {

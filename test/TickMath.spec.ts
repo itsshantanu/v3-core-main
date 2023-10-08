@@ -103,14 +103,13 @@ describe('TickMath', () => {
     })
   })
 
-  describe.only('#getTickAtSqrtRatio', () => {
+  describe('#getTickAtSqrtRatio', () => {
     it('throws for too low', async () => {
       await expect(tickMath.getTickAtSqrtRatio(MIN_SQRT_RATIO.sub(1))).to.be.revertedWith('R')
     })
 
     it('throws for too high', async () => {
-      // await expect(tickMath.getTickAtSqrtRatio(BigNumber.from(MAX_SQRT_RATIO))).to.be.revertedWith('R')
-      await tickMath.getTickAtSqrtRatio(BigNumber.from(MAX_SQRT_RATIO))
+      await expect(tickMath.getTickAtSqrtRatio(BigNumber.from(MAX_SQRT_RATIO))).to.be.revertedWith('R')
     })
 
     it('ratio of min tick', async () => {

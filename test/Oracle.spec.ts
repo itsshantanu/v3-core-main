@@ -262,7 +262,7 @@ describe('Oracle', () => {
   })
 
   describe('#observe', () => {
-    describe.only('before initialization', async () => {
+    describe('before initialization', async () => {
       let oracle: OracleTest
       beforeEach('deploy test oracle', async () => {
         oracle = await loadFixture(oracleFixture)
@@ -282,8 +282,7 @@ describe('Oracle', () => {
 
       it('fails if an older observation does not exist', async () => {
         await oracle.initialize({ liquidity: 4, tick: 2, time: 5 })
-        // await expect(observeSingle(1)).to.be.revertedWith('OLD')
-        await observeSingle(1)
+        await expect(observeSingle(1)).to.be.revertedWith('OLD')
       })
 
       it('does not fail across overflow boundary', async () => {
